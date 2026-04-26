@@ -1,0 +1,68 @@
+@model IEnumerable<mvc_ef.Models.TodoItem>
+@{
+    ViewData["Title"] = "My Todos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>My Todos</h1>
+    <a asp-action="Create" class="btn btn-primary">
+        + New Todo
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        You don't have any todos yet. Click <strong>"+ New Todo"</strong> to create one!
+    </div>
+}
+else
+{
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Status</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created</th>
+                <th style="width: 220px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todo in Model)
+            {
+                <tr class="@(todo.IsCompleted ? "table-success" : "")">
+                    <td>
+                        <form asp-action="ToggleComplete" asp-route-id="@todo.Id" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm @(todo.IsCompleted ? "btn-success" : "btn-outline-secondary")" title="Toggle status">
+                                @(todo.IsCompleted ? "✔ Done" : "○ Pending")
+                            </button>
+                        </form>
+                    </td>
+                    <td class="@(todo.IsCompleted ? "text-decoration-line-through" : "")">
+                        @todo.Title
+                    </td>
+                    <td class="text-muted">
+                        @(todo.Description ?? "—")
+                    </td>
+                    <td>
+                        @todo.CreatedAt.ToString("MMM dd, yyyy")
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@todo.Id" class="btn btn-sm btn-warning">
+                            Edit
+                        </a>
+                        <form asp-action="Delete" asp-route-id="@todo.Id" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Delete this todo?')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

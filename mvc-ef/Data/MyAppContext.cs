@@ -17,7 +17,7 @@ namespace mvc_ef.Data
             base.OnModelCreating(modelBuilder);
 
             // Use custom schema
-            modelBuilder.HasDefaultSchema("MyAppSchema");
+            // modelBuilder.HasDefaultSchema("MyAppSchema");
 
             // User configuration
             modelBuilder.Entity<User>(entity =>
@@ -46,7 +46,7 @@ namespace mvc_ef.Data
                     .IsRequired();
 
                 entity.Property(u => u.CreatedAt)
-                    .HasDefaultValueSql("SYSUTCDATETIME()");
+                    .HasDefaultValueSql("SYS_EXTRACT_UTC(SYSTIMESTAMP)");
 
                 entity.Ignore(u => u.FullName);
             });
@@ -67,7 +67,7 @@ namespace mvc_ef.Data
                     .HasDefaultValue(false);
 
                 entity.Property(t => t.CreatedAt)
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("SYSDATE");
 
                 entity.HasIndex(t => t.UserId);
 

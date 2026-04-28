@@ -5,12 +5,10 @@ namespace mvc_ef.Data
 {
     public class MyAppContext : DbContext
     {
-        public MyAppContext(DbContextOptions<MyAppContext> options) : base(options)
-        {
-        }
+        public MyAppContext(DbContextOptions<MyAppContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<TodoItem> TodoItems { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

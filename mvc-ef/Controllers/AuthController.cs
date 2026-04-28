@@ -49,7 +49,7 @@ namespace mvc_ef.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Todo");
         }
 
         [HttpGet]
@@ -83,7 +83,7 @@ namespace mvc_ef.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Todo");
         }
     }
 }
